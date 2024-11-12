@@ -54,7 +54,7 @@ class Productor inherits Persona {
 
 
 class Constructor inherits Persona {
-    const construcciones 
+    var construcciones 
     const region
 
     override method recursos() = super() + 10 * construcciones
@@ -64,7 +64,11 @@ class Constructor inherits Persona {
     override method trabajar(unPlaneta, unTiempo) {
         unPlaneta.construir(region.construccion(self, unTiempo))
         self.gastarMonedas(5)
-        self.ganarMonedas(1)
+        self.registrarConstruccion() //self.ganarMonedas(1)
+    }
+
+    method registrarConstruccion() {
+        construcciones = construcciones + 1
     }
 }
 

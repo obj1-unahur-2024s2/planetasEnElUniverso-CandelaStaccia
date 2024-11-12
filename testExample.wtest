@@ -51,21 +51,22 @@ describe "test de mas personas" {
     sofia.trabajar(planeta1, 20)
     walter.trabajar(planeta1, 8)
 
-    assert.equals(36, bob.recursos())
-    assert.equals(66, pia.recursos())
-    assert.equals(816, marcelo.recursos())
-    assert.equals(16, sofia.recursos())
+    assert.equals(45, bob.recursos())
+    assert.equals(75, pia.recursos())
+    assert.equals(825, marcelo.recursos())
+    assert.equals(25, sofia.recursos())
     assert.equals(44, walter.recursos())
 
     assert.that(planeta1.construcciones().size() == 7)
-    assert.that(planeta1.delegacionDiplomatica().size() == 2) //marcelo y walter
+    assert.that(planeta1.delegacionDiplomatica().size() == 3) //marcelo, walter y pia
   }
 
   test "el planeta2 invade al planeta1" {
     planeta2.invadir(planeta1, 5)
 
-    assert.equals(816, marcelo.recursos())
+    assert.equals(825, marcelo.recursos())
     assert.equals(20, walter.recursos())
+    assert.equals(70, pia.recursos()) //70?
     assert.that(planeta2.construcciones().size() == 1)
   }
 }
