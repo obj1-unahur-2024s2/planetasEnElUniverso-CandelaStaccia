@@ -1,9 +1,71 @@
-import example.pepita
+import personas.*
+import construcciones.*
+import planetas.*
 
-describe "group of tests for pepita" {
+describe "primeras pruebas" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  const pepe = new Persona(edad  = 40, inteligencia = 60)
+  const maria = new Persona(edad = 20, inteligencia = 40)
+  const jorge = new Persona(edad = 60, inteligencia = 120)
+  const ana = new Persona(edad = 15, inteligencia = 20)
+
+  const mur1 = new Muralla(longitud = 120)
+  const mur2 = new Muralla(longitud = 60)
+  const museo1 = new Museo(superficie = 20, indiceImportancia = 5)
+
+  const planeta1 = new Planeta(habitantes = [pepe, maria, jorge, ana], construcciones = [mur1, mur2, museo1])
+
+  test "La delegación diplomatica esta formada por 3 personas y es valioso" {
+    assert.that(planeta1.delegacionDiplomatica().size() == 3)
+    assert.that(planeta1.esValioso())
   }
 
+  test "la delegación deja de estar formada por 3 personas" {
+    jorge.gastarMonedas(10)
+    (1.. 8).forEach({n => jorge.cumplirAnios()})
+
+    assert.notThat(planeta1.delegacionDiplomatica().size() == 3)
+  }
+}
+
+
+describe "test de mas personas" {
+
+  const mur1 = new Muralla(longitud = 120)
+  const mur2 = new Muralla(longitud = 60)
+  const museo1 = new Museo(superficie = 20, indiceImportancia = 5)
+
+  const bob = new Constructor(region = montania, construcciones = 2, edad = 29, inteligencia = 60)
+  const pia = new Constructor(region = costa, construcciones = 5, edad = 36, inteligencia = 42)
+  const marcelo = new Constructor(region = llanura, construcciones = 80, edad = 75, inteligencia = 80)
+  const sofia = new Constructor(region = ciudad, construcciones = 0, edad = 18, inteligencia = 30)
+  const walter = new Productor(edad = 48, inteligencia = 80)
+
+  const planeta1 = new Planeta(habitantes = [bob, pia, marcelo, sofia, walter], construcciones = [museo1, mur1, mur2])
+  const planeta2 = new Planeta()
+
+  test "todos trabajan" {
+    bob.trabajar(planeta1, 5)
+    pia.trabajar(planeta1, 10)
+    marcelo.trabajar(planeta1, 50)
+    sofia.trabajar(planeta1, 20)
+    walter.trabajar(planeta1, 8)
+
+    assert.equals(36, bob.recursos())
+    assert.equals(66, pia.recursos())
+    assert.equals(816, marcelo.recursos())
+    assert.equals(16, sofia.recursos())
+    assert.equals(44, walter.recursos())
+
+    assert.that(planeta1.construcciones().size() == 7)
+    assert.that(planeta1.delegacionDiplomatica().size() == 2) //marcelo y walter
+  }
+
+  test "el planeta2 invade al planeta1" {
+    planeta2.invadir(planeta1, 5)
+
+    assert.equals(816, marcelo.recursos())
+    assert.equals(20, walter.recursos())
+    assert.that(planeta2.construcciones().size() == 1)
+  }
 }
